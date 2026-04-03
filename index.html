@@ -4,258 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEO Visibility Check - Is AI Recommending Your Business?</title>
-    <meta name="description" content="Find out if ChatGPT, Perplexity, and Google AI are recommending your business. 8 questions, 5 minutes.">
+    <meta name="description" content="Find out if ChatGPT, Perplexity, and Google AI recommend your business. 8 questions, 5 minutes.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif;
-            background: #09090b;
-            color: #d4d4d8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
+            background: #f8f7f4;
+            color: #2d2a26;
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 620px;
+        .page {
+            max-width: 640px;
             margin: 0 auto;
-            padding: 3.5rem 1.5rem 4rem;
+            padding: 3rem 1.5rem 4rem;
         }
 
         /* Hero */
         .hero {
-            margin-bottom: 3.5rem;
             text-align: center;
+            padding-bottom: 2.75rem;
+            border-bottom: 1px solid #e8e5df;
+            margin-bottom: 2.75rem;
         }
 
-        .hero h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #fafafa;
-            line-height: 1.25;
+        .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #8b7e6a;
+            background: #efece6;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 750;
+            color: #1a1816;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
             margin-bottom: 1rem;
-            letter-spacing: -0.02em;
         }
 
         .hero p {
             font-size: 1.05rem;
-            color: #71717a;
-            max-width: 480px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.65;
+            color: #6b6560;
+            max-width: 460px;
+            margin: 0 auto 2.25rem;
+            line-height: 1.6;
         }
 
         .stats {
             display: flex;
             justify-content: center;
-            gap: 2.5rem;
-            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .stat {
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e8e5df;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            flex: 1;
+            max-width: 160px;
             text-align: center;
         }
 
         .stat-num {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #fafafa;
-            font-variant-numeric: tabular-nums;
+            font-size: 1.5rem;
+            font-weight: 750;
+            color: #1a1816;
+            line-height: 1.2;
         }
 
         .stat-label {
-            font-size: 0.78rem;
-            color: #52525b;
-            margin-top: 0.15rem;
-            max-width: 120px;
-        }
-
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: #1c1c1f;
-            margin: 3rem 0;
+            font-size: 0.72rem;
+            color: #8b7e6a;
+            margin-top: 0.25rem;
+            line-height: 1.35;
         }
 
         /* Progress */
-        .progress-wrap {
+        .progress-section {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 0.75rem;
         }
 
-        .progress-label {
-            font-size: 0.78rem;
-            color: #52525b;
-            font-weight: 500;
+        .progress-title {
+            font-size: 0.72rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.08em;
+            color: #8b7e6a;
         }
 
         .progress-count {
             font-size: 0.78rem;
-            color: #52525b;
+            color: #8b7e6a;
+            font-weight: 500;
             font-variant-numeric: tabular-nums;
         }
 
-        .progress-bar {
-            height: 2px;
-            background: #1c1c1f;
-            border-radius: 1px;
-            margin-bottom: 2.5rem;
+        .progress-track {
+            height: 3px;
+            background: #e8e5df;
+            border-radius: 2px;
+            margin-bottom: 2rem;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .progress-bar {
             height: 100%;
-            background: #3b82f6;
-            border-radius: 1px;
+            background: #3b6f4a;
+            border-radius: 2px;
             transition: width 0.4s ease;
             width: 0%;
         }
 
         /* Questions */
         .question {
-            margin-bottom: 1.25rem;
-            padding: 1.75rem;
-            background: #0f0f12;
-            border: 1px solid #1c1c1f;
+            background: #fff;
+            border: 1px solid #e8e5df;
             border-radius: 14px;
-            transition: border-color 0.2s ease;
+            padding: 1.75rem;
+            margin-bottom: 0.85rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .question:hover {
+            border-color: #d5d0c8;
         }
 
         .question.answered {
-            border-color: #27272a;
+            border-color: #c5dccb;
+            box-shadow: 0 0 0 1px rgba(59, 111, 74, 0.08);
         }
 
-        .question-top {
+        .q-header {
             display: flex;
             align-items: baseline;
-            gap: 0.65rem;
-            margin-bottom: 0.35rem;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .q-num {
             font-size: 0.72rem;
-            font-weight: 600;
-            color: #3f3f46;
+            font-weight: 700;
+            color: #b5ad9e;
             flex-shrink: 0;
-            min-width: 1.1rem;
+            min-width: 1.2rem;
         }
 
         .question.answered .q-num {
-            color: #22c55e;
+            color: #3b6f4a;
         }
 
         .question h3 {
-            font-size: 1rem;
-            font-weight: 550;
-            color: #e4e4e7;
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: #1a1816;
             line-height: 1.45;
         }
 
         .tag {
             display: inline-block;
-            font-size: 0.62rem;
-            font-weight: 600;
+            font-size: 0.58rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 2px 7px;
-            border-radius: 4px;
-            margin-left: 0.5rem;
+            letter-spacing: 0.08em;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-left: 0.4rem;
             vertical-align: middle;
             position: relative;
             top: -1px;
         }
 
         .tag.critical {
-            background: rgba(245, 158, 11, 0.12);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.2);
+            background: #fef3e2;
+            color: #b8860b;
+            border: 1px solid #f5deb3;
         }
 
         .hint {
             font-size: 0.85rem;
-            color: #52525b;
+            color: #8b7e6a;
             line-height: 1.6;
-            margin: 0.6rem 0 1.25rem;
-            padding-left: 1.75rem;
+            margin: 0.5rem 0 1.15rem 1.95rem;
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            padding-left: 1.75rem;
+            gap: 0.45rem;
+            margin-left: 1.95rem;
         }
 
         .option {
-            padding: 0.75rem 1rem;
-            border: 1px solid #27272a;
+            padding: 0.8rem 1.1rem;
+            border: 1px solid #e8e5df;
             border-radius: 10px;
             cursor: pointer;
             font-size: 0.88rem;
-            color: #71717a;
+            color: #6b6560;
+            background: #fafaf8;
             transition: all 0.15s ease;
-            background: transparent;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
 
         .option:hover {
-            border-color: #3f3f46;
-            color: #a1a1aa;
+            border-color: #d5d0c8;
+            background: #f5f3ef;
+            color: #2d2a26;
         }
 
         .option:active {
-            transform: scale(0.99);
+            transform: scale(0.995);
         }
 
         .option.sel-yes {
-            border-color: rgba(34, 197, 94, 0.4);
-            background: rgba(34, 197, 94, 0.06);
-            color: #4ade80;
+            border-color: #a3d4ae;
+            background: #f0f8f2;
+            color: #2d5e3a;
+            font-weight: 500;
         }
 
         .option.sel-partial {
-            border-color: rgba(245, 158, 11, 0.4);
-            background: rgba(245, 158, 11, 0.06);
-            color: #fbbf24;
+            border-color: #f0d68a;
+            background: #fefbf0;
+            color: #8b6914;
+            font-weight: 500;
         }
 
         .option.sel-no {
-            border-color: rgba(239, 68, 68, 0.4);
-            background: rgba(239, 68, 68, 0.06);
-            color: #f87171;
+            border-color: #f0b4b4;
+            background: #fef5f5;
+            color: #9b3030;
+            font-weight: 500;
         }
 
-        /* Calculate button */
+        /* Calculate */
         .calc-btn {
             display: block;
             width: 100%;
-            padding: 1.1rem;
-            margin-top: 2rem;
-            background: #18181b;
-            color: #52525b;
-            border: 1px solid #27272a;
+            padding: 1.15rem;
+            margin-top: 1.5rem;
+            background: #e8e5df;
+            color: #b5ad9e;
+            border: none;
             border-radius: 12px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 650;
             cursor: not-allowed;
             transition: all 0.25s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
         .calc-btn.ready {
-            background: #3b82f6;
+            background: #3b6f4a;
             color: #fff;
-            border-color: #3b82f6;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(59, 111, 74, 0.2);
         }
 
         .calc-btn.ready:hover {
-            background: #2563eb;
+            background: #2f5a3c;
         }
 
         .calc-btn.ready:active {
@@ -265,156 +287,154 @@
         /* Results */
         .results {
             display: none;
-            margin-top: 3rem;
+            margin-top: 2.5rem;
         }
 
         .result-card {
-            background: #0f0f12;
-            border: 1px solid #1c1c1f;
+            background: #fff;
+            border: 1px solid #e8e5df;
             border-radius: 16px;
-            padding: 2.5rem 2rem;
+            overflow: hidden;
         }
 
-        .score-area {
+        .score-banner {
+            padding: 2.5rem 2rem;
             text-align: center;
-            margin-bottom: 2.5rem;
         }
 
         .score-number {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 800;
-            letter-spacing: -0.03em;
             line-height: 1;
+            letter-spacing: -0.04em;
             font-variant-numeric: tabular-nums;
         }
 
-        .score-label {
+        .score-of {
             font-size: 0.78rem;
-            color: #52525b;
-            margin-top: 0.25rem;
-            margin-bottom: 1rem;
+            color: #8b7e6a;
+            margin-top: 0.2rem;
+            margin-bottom: 1.25rem;
         }
 
         .score-grade {
-            font-size: 1.15rem;
-            font-weight: 650;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
         }
 
         .score-desc {
             font-size: 0.92rem;
-            color: #71717a;
+            color: #6b6560;
             line-height: 1.65;
-            max-width: 460px;
+            max-width: 440px;
             margin: 0 auto;
         }
 
         /* Fixes */
-        .fixes {
-            margin-top: 2.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid #1c1c1f;
+        .fixes-section {
+            padding: 2rem;
+            border-top: 1px solid #e8e5df;
         }
 
-        .fixes h4 {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #52525b;
+        .fixes-section h4 {
+            font-size: 0.72rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 1.25rem;
+            letter-spacing: 0.08em;
+            color: #8b7e6a;
+            margin-bottom: 1rem;
         }
 
         .fix {
             display: flex;
             gap: 0.85rem;
             padding: 1rem;
-            background: rgba(255,255,255, 0.02);
+            background: #fafaf8;
             border-radius: 10px;
-            margin-bottom: 0.65rem;
+            margin-bottom: 0.5rem;
             align-items: flex-start;
         }
 
         .fix-tag {
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            padding: 3px 8px;
+            padding: 4px 8px;
             border-radius: 5px;
             flex-shrink: 0;
-            margin-top: 3px;
+            margin-top: 2px;
             white-space: nowrap;
         }
 
         .fix-tag.high {
-            background: rgba(239, 68, 68, 0.1);
-            color: #f87171;
+            background: #fef5f5;
+            color: #c0392b;
+            border: 1px solid #f0b4b4;
         }
 
         .fix-tag.quick {
-            background: rgba(34, 197, 94, 0.1);
-            color: #4ade80;
+            background: #f0f8f2;
+            color: #2d5e3a;
+            border: 1px solid #a3d4ae;
         }
 
         .fix-tag.med {
-            background: rgba(245, 158, 11, 0.1);
-            color: #fbbf24;
+            background: #fefbf0;
+            color: #8b6914;
+            border: 1px solid #f0d68a;
         }
 
         .fix-text {
             font-size: 0.88rem;
-            color: #a1a1aa;
+            color: #4a4540;
             line-height: 1.55;
         }
 
         /* CTA */
-        .cta {
-            margin-top: 2.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid #1c1c1f;
+        .cta-section {
+            padding: 2rem;
+            border-top: 1px solid #e8e5df;
             text-align: center;
         }
 
-        .cta h4 {
+        .cta-section h4 {
             font-size: 1.15rem;
-            font-weight: 650;
-            color: #fafafa;
-            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: #1a1816;
+            margin-bottom: 0.65rem;
         }
 
-        .cta p {
+        .cta-section > p {
             font-size: 0.9rem;
-            color: #71717a;
+            color: #6b6560;
             line-height: 1.6;
-            margin-bottom: 1.5rem;
-            max-width: 440px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 420px;
+            margin: 0 auto 1.5rem;
         }
 
         .cta-list {
             list-style: none;
             text-align: left;
             max-width: 420px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 1.75rem;
         }
 
         .cta-list li {
-            font-size: 0.88rem;
-            color: #a1a1aa;
-            padding: 0.4rem 0;
+            font-size: 0.86rem;
+            color: #4a4540;
+            padding: 0.35rem 0;
             display: flex;
             align-items: baseline;
-            gap: 0.65rem;
+            gap: 0.7rem;
         }
 
         .cta-list li::before {
             content: "";
-            display: inline-block;
-            width: 5px;
-            height: 5px;
-            background: #3b82f6;
+            width: 6px;
+            height: 6px;
+            background: #3b6f4a;
             border-radius: 50%;
             flex-shrink: 0;
             position: relative;
@@ -423,7 +443,7 @@
 
         .cta-btn {
             display: inline-block;
-            background: #3b82f6;
+            background: #3b6f4a;
             color: #fff;
             padding: 1rem 2.5rem;
             border-radius: 12px;
@@ -431,103 +451,92 @@
             font-weight: 650;
             font-size: 1rem;
             transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(59, 111, 74, 0.2);
             -webkit-tap-highlight-color: transparent;
         }
 
-        .cta-btn:hover {
-            background: #2563eb;
-        }
+        .cta-btn:hover { background: #2f5a3c; }
 
         .cta-sub {
             font-size: 0.78rem;
-            color: #3f3f46;
+            color: #b5ad9e;
             margin-top: 0.75rem;
         }
 
-        /* Restart */
         .restart-btn {
             display: block;
             width: 100%;
             padding: 0.85rem;
-            margin-top: 1.25rem;
+            margin-top: 1rem;
             background: transparent;
-            color: #3f3f46;
-            border: 1px solid #1c1c1f;
+            color: #b5ad9e;
+            border: 1px solid #e8e5df;
             border-radius: 10px;
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        .restart-btn:hover {
-            color: #71717a;
-            border-color: #27272a;
-        }
+        .restart-btn:hover { color: #8b7e6a; border-color: #d5d0c8; }
 
-        /* Footer */
         .footer {
             text-align: center;
-            margin-top: 3rem;
-            color: #27272a;
+            margin-top: 2.5rem;
             font-size: 0.75rem;
+            color: #b5ad9e;
         }
 
-        .footer a {
-            color: #27272a;
-            text-decoration: none;
-        }
+        .footer a { color: #8b7e6a; text-decoration: none; }
+        .footer a:hover { color: #6b6560; }
 
-        .footer a:hover {
-            color: #3f3f46;
-        }
-
-        /* Mobile */
         @media (max-width: 640px) {
-            .container { padding: 2.5rem 1.25rem 3rem; }
-            .hero h1 { font-size: 1.65rem; }
+            .page { padding: 2rem 1.15rem 3rem; }
+            h1 { font-size: 1.7rem; }
             .hero p { font-size: 0.95rem; }
-            .stats { gap: 1.5rem; }
-            .stat-num { font-size: 1.35rem; }
-            .question { padding: 1.35rem; }
-            .options { padding-left: 0; }
-            .result-card { padding: 2rem 1.5rem; }
-            .score-number { font-size: 3.2rem; }
+            .stats { gap: 0.65rem; }
+            .stat-card { padding: 0.85rem 0.75rem; }
+            .stat-num { font-size: 1.25rem; }
+            .stat-label { font-size: 0.68rem; }
+            .question { padding: 1.35rem 1.25rem; }
+            .hint { margin-left: 0; }
+            .options { margin-left: 0; }
+            .result-card { border-radius: 14px; }
+            .score-banner { padding: 2rem 1.5rem; }
+            .fixes-section, .cta-section { padding: 1.5rem; }
+            .score-number { font-size: 3.5rem; }
         }
     </style>
 </head>
 <body>
-<div class="container">
-
+<div class="page">
     <div class="hero">
-        <h1>Is AI recommending<br>your business?</h1>
-        <p>When customers ask ChatGPT or Perplexity for recommendations, are you showing up? 8 questions. 5 minutes. Find out where you stand.</p>
+        <div class="badge">Free visibility check</div>
+        <h1>Is AI recommending your business?</h1>
+        <p>When customers ask ChatGPT or Perplexity for recommendations, are you showing up? 8 questions. 5 minutes.</p>
         <div class="stats">
-            <div class="stat">
+            <div class="stat-card">
                 <div class="stat-num">90%</div>
                 <div class="stat-label">of local businesses are invisible to AI</div>
             </div>
-            <div class="stat">
+            <div class="stat-card">
                 <div class="stat-num">2-7</div>
                 <div class="stat-label">businesses cited per AI answer</div>
             </div>
-            <div class="stat">
+            <div class="stat-card">
                 <div class="stat-num">527%</div>
                 <div class="stat-label">AI traffic growth in 2025</div>
             </div>
         </div>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="progress-wrap">
-        <span class="progress-label">Visibility Check</span>
-        <span class="progress-count" id="progressCount">0 / 8</span>
+    <div class="progress-section">
+        <span class="progress-title">Your check</span>
+        <span class="progress-count" id="pCount">0 of 8</span>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-track"><div class="progress-bar" id="pBar"></div></div>
 
-    <div class="question" data-q="1" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="1">
+        <div class="q-header">
             <span class="q-num">01</span>
             <h3>Is your robots.txt blocking AI crawlers? <span class="tag critical">Hidden Killer</span></h3>
         </div>
@@ -539,12 +548,12 @@
         </div>
     </div>
 
-    <div class="question" data-q="2" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="2">
+        <div class="q-header">
             <span class="q-num">02</span>
             <h3>Does ChatGPT mention your business?</h3>
         </div>
-        <p class="hint">Open ChatGPT right now. Ask: "What are the best [your industry] in [your city]?" Then: "Recommend a [your industry] for [common need] in [your city]."</p>
+        <p class="hint">Open ChatGPT. Ask: "What are the best [your industry] in [your city]?" Then: "Recommend a [your industry] for [common need] in [your city]."</p>
         <div class="options">
             <div class="option" data-val="2" onclick="pick(this)">Mentioned in both queries</div>
             <div class="option" data-val="1" onclick="pick(this)">Mentioned in one</div>
@@ -552,12 +561,12 @@
         </div>
     </div>
 
-    <div class="question" data-q="3" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="3">
+        <div class="q-header">
             <span class="q-num">03</span>
             <h3>Have you claimed your Foursquare listing? <span class="tag critical">ChatGPT's #1 source</span></h3>
         </div>
-        <p class="hint">ChatGPT pulls 70%+ of local business results from Foursquare, not Google Maps. Search for your business at foursquare.com. Most businesses have never claimed theirs.</p>
+        <p class="hint">ChatGPT pulls 70%+ of local business results from Foursquare, not Google Maps. Search your business at foursquare.com.</p>
         <div class="options">
             <div class="option" data-val="2" onclick="pick(this)">Claimed and complete</div>
             <div class="option" data-val="1" onclick="pick(this)">Listed but unclaimed</div>
@@ -565,12 +574,12 @@
         </div>
     </div>
 
-    <div class="question" data-q="4" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="4">
+        <div class="q-header">
             <span class="q-num">04</span>
             <h3>Google Business Profile + Bing Places</h3>
         </div>
-        <p class="hint">Google Business feeds AI Overviews. Bing Places feeds Copilot and SearchGPT. Both need to be claimed, verified, and complete with hours, photos, and descriptions.</p>
+        <p class="hint">Google Business feeds AI Overviews. Bing Places feeds Copilot and SearchGPT. Both need to be claimed, verified, and complete.</p>
         <div class="options">
             <div class="option" data-val="2" onclick="pick(this)">Both claimed and complete</div>
             <div class="option" data-val="1" onclick="pick(this)">Only one is complete</div>
@@ -578,12 +587,12 @@
         </div>
     </div>
 
-    <div class="question" data-q="5" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="5">
+        <div class="q-header">
             <span class="q-num">05</span>
             <h3>Does your website have schema markup?</h3>
         </div>
-        <p class="hint">Test at search.google.com/test/rich-results. LocalBusiness schema tells AI exactly what you do and where. Under 15% of local businesses have it.</p>
+        <p class="hint">Test at search.google.com/test/rich-results. LocalBusiness schema tells AI what you do and where. Under 15% of local businesses have it.</p>
         <div class="options">
             <div class="option" data-val="2" onclick="pick(this)">Yes, validated and passing</div>
             <div class="option" data-val="1" onclick="pick(this)">Not sure</div>
@@ -591,25 +600,25 @@
         </div>
     </div>
 
-    <div class="question" data-q="6" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="6">
+        <div class="q-header">
             <span class="q-num">06</span>
             <h3>Do you have detailed FAQ content?</h3>
         </div>
-        <p class="hint">FAQ format mirrors how people ask AI questions. Sites with real FAQ content get cited 40-60% more. "How much does X cost in Y city?" gets cited. "We provide great service" does not.</p>
+        <p class="hint">FAQ format mirrors how people ask AI. Sites with real FAQ content get cited 40-60% more. Specific answers get cited. Vague marketing copy does not.</p>
         <div class="options">
-            <div class="option" data-val="2" onclick="pick(this)">Detailed FAQ with 8+ questions</div>
+            <div class="option" data-val="2" onclick="pick(this)">Detailed FAQ, 8+ questions</div>
             <div class="option" data-val="1" onclick="pick(this)">Basic or outdated FAQ</div>
             <div class="option" data-val="0" onclick="pick(this)">No FAQ content</div>
         </div>
     </div>
 
-    <div class="question" data-q="7" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="7">
+        <div class="q-header">
             <span class="q-num">07</span>
             <h3>Are you listed in third-party directories?</h3>
         </div>
-        <p class="hint">AI cross-references your business across multiple sources before recommending it. Yelp, industry directories, local press. Inconsistent info across listings lowers AI confidence.</p>
+        <p class="hint">AI cross-references multiple sources before recommending you. Yelp, industry directories, local press. Inconsistent info lowers AI confidence in your business.</p>
         <div class="options">
             <div class="option" data-val="2" onclick="pick(this)">4+ consistent listings</div>
             <div class="option" data-val="1" onclick="pick(this)">2-3 listings</div>
@@ -617,36 +626,36 @@
         </div>
     </div>
 
-    <div class="question" data-q="8" data-weight="2">
-        <div class="question-top">
+    <div class="question" data-q="8">
+        <div class="q-header">
             <span class="q-num">08</span>
             <h3>Does your website have specific, citable facts?</h3>
         </div>
-        <p class="hint">AI can't cite vague copy. It cites: years in business, number of clients, certifications, specific services, prices, service areas. Replace marketing language with real data.</p>
+        <p class="hint">AI cites: years in business, certifications, number of clients, service areas, prices. It cannot cite "we provide excellent service."</p>
         <div class="options">
             <div class="option" data-val="2" onclick="pick(this)">Specific facts and data throughout</div>
-            <div class="option" data-val="1" onclick="pick(this)">Some specifics, some vague</div>
+            <div class="option" data-val="1" onclick="pick(this)">Mix of specifics and vague copy</div>
             <div class="option" data-val="0" onclick="pick(this)">Mostly marketing language</div>
         </div>
     </div>
 
-    <button class="calc-btn" id="calcBtn" disabled onclick="showResults()">Calculate My Score</button>
+    <button class="calc-btn" id="calcBtn" disabled onclick="showResults()">Answer all 8 questions to see your score</button>
 
     <div class="results" id="results">
         <div class="result-card">
-            <div class="score-area">
+            <div class="score-banner" id="scoreBanner">
                 <div class="score-number" id="scoreNum"></div>
-                <div class="score-label">out of 100</div>
+                <div class="score-of">out of 100</div>
                 <div class="score-grade" id="scoreGrade"></div>
                 <div class="score-desc" id="scoreDesc"></div>
             </div>
 
-            <div class="fixes">
-                <h4>Your Priority Fixes</h4>
+            <div class="fixes-section">
+                <h4>Your priority fixes</h4>
                 <div id="fixList"></div>
             </div>
 
-            <div class="cta">
+            <div class="cta-section">
                 <h4>Want the full picture?</h4>
                 <p>This check shows the gaps. A full GEO Visibility Audit shows exactly which competitors get cited when customers search your category, with a prioritized fix roadmap for your business.</p>
                 <ul class="cta-list">
@@ -663,9 +672,7 @@
         <button class="restart-btn" onclick="restart()">Start Over</button>
     </div>
 
-    <div class="footer">
-        Built by <a href="mailto:poncho.mort@agentmail.to">Providence</a>
-    </div>
+    <div class="footer">Built by <a href="mailto:poncho.mort@agentmail.to">Providence</a></div>
 </div>
 
 <script>
@@ -682,8 +689,8 @@ function pick(el) {
     q.classList.add('answered');
 
     const count = Object.keys(answers).length;
-    document.getElementById('progressFill').style.width = (count / total * 100) + '%';
-    document.getElementById('progressCount').textContent = count + ' / ' + total;
+    document.getElementById('pBar').style.width = (count / total * 100) + '%';
+    document.getElementById('pCount').textContent = count + ' of ' + total;
 
     const btn = document.getElementById('calcBtn');
     if (count >= total) {
@@ -696,41 +703,38 @@ function pick(el) {
 function showResults() {
     const sum = Object.values(answers).reduce((a, b) => a + b, 0);
     const pct = Math.round((sum / (total * 2)) * 100);
-
     document.getElementById('scoreNum').textContent = pct;
 
-    let color, grade, desc;
+    let color, bg, grade, desc;
     if (pct >= 75) {
-        color = '#4ade80'; grade = 'Strong Visibility';
-        desc = 'Your AI presence is above average. Most of your competitors are still invisible. Focus on maintaining this edge as AI models update and retrain.';
+        color = '#2d5e3a'; bg = '#f0f8f2'; grade = 'Strong Visibility';
+        desc = 'Your AI presence is above average. Most competitors are still invisible. Focus on maintaining this edge as AI models retrain and update.';
     } else if (pct >= 50) {
-        color = '#fbbf24'; grade = 'Partial Visibility';
+        color = '#8b6914'; bg = '#fefbf0'; grade = 'Partial Visibility';
         desc = 'AI knows you exist but is not consistently recommending you. You are losing high-intent customers on certain queries. The fixes below can close the gap in days, not months.';
     } else if (pct >= 25) {
-        color = '#fb923c'; grade = 'Low Visibility';
-        desc = 'AI models have weak signal on your business and are recommending competitors instead. Most of these issues are technical, not reputational, and are fixable fast.';
+        color = '#b85c00'; bg = '#fef8f0'; grade = 'Low Visibility';
+        desc = 'AI has weak signal on your business and recommends competitors instead. Most of these issues are technical, not reputational, and fixable fast.';
     } else {
-        color = '#f87171'; grade = 'Invisible to AI';
+        color = '#9b3030'; bg = '#fef5f5'; grade = 'Invisible to AI';
         desc = 'Your competitors are getting the AI-driven referrals that should be yours. The good news: 90% of local businesses are in the same position, and the fixes are straightforward.';
     }
 
-    const scoreEl = document.getElementById('scoreNum');
-    const gradeEl = document.getElementById('scoreGrade');
-    scoreEl.style.color = color;
-    gradeEl.style.color = color;
-    gradeEl.textContent = grade;
+    document.getElementById('scoreNum').style.color = color;
+    document.getElementById('scoreGrade').style.color = color;
+    document.getElementById('scoreGrade').textContent = grade;
     document.getElementById('scoreDesc').textContent = desc;
+    document.getElementById('scoreBanner').style.background = bg;
 
-    // Build fix list
     let fixes = [];
     if (answers['1'] === 0) fixes.push({ t: 'high', text: 'Fix robots.txt: you are blocking AI crawlers. Allow GPTBot, ClaudeBot, OAI-SearchBot, and PerplexityBot. This alone could be why you are invisible.' });
-    if (answers['3'] === 0) fixes.push({ t: 'high', text: 'Claim your Foursquare listing. ChatGPT pulls 70%+ of local results from Foursquare. Go to foursquare.com, search your business, and claim it.' });
-    if (answers['4'] !== 2) fixes.push({ t: 'quick', text: 'Complete your Bing Places listing at bingplaces.com. It feeds Copilot and SearchGPT directly.' });
-    if (answers['5'] === 0) fixes.push({ t: 'high', text: 'Add LocalBusiness schema markup to your website. Have your developer add JSON-LD with your name, address, hours, and services.' });
-    if (answers['6'] !== 2) fixes.push({ t: 'quick', text: 'Build a real FAQ page with 8-15 questions customers actually ask. Answer each in 1-3 specific sentences. This produces a 40-60% citation lift.' });
-    if (answers['7'] !== 2) fixes.push({ t: 'med', text: 'Expand directory presence: Yelp, industry directories, local business associations. Keep name, address, and phone consistent across all.' });
-    if (answers['8'] !== 2) fixes.push({ t: 'med', text: 'Replace vague copy with specifics: years in business, certifications, number of clients served, service areas, price ranges.' });
-    if (answers['1'] === 2 && answers['2'] === 2 && fixes.length === 0) fixes.push({ t: 'quick', text: 'Strong baseline. Add comparison content and a "Why Choose Us" page with specific, superlative claims to strengthen your position.' });
+    if (answers['3'] === 0) fixes.push({ t: 'high', text: 'Claim your Foursquare listing. ChatGPT pulls 70%+ of local results from Foursquare. Search your business at foursquare.com and claim it.' });
+    if (answers['4'] !== 2) fixes.push({ t: 'quick', text: 'Complete Bing Places at bingplaces.com. It feeds Copilot and SearchGPT directly.' });
+    if (answers['5'] === 0) fixes.push({ t: 'high', text: 'Add LocalBusiness schema markup. Have your developer add JSON-LD with your name, address, hours, and services.' });
+    if (answers['6'] !== 2) fixes.push({ t: 'quick', text: 'Build a real FAQ page: 8-15 questions customers actually ask, each answered in 1-3 specific sentences. 40-60% citation lift.' });
+    if (answers['7'] !== 2) fixes.push({ t: 'med', text: 'Expand directory presence: Yelp, industry directories, local business associations. Keep name, address, and phone consistent.' });
+    if (answers['8'] !== 2) fixes.push({ t: 'med', text: 'Replace vague copy with specifics: years in business, certifications, clients served, service areas, price ranges.' });
+    if (fixes.length === 0) fixes.push({ t: 'quick', text: 'Strong baseline. Add comparison content and a "Why Choose Us" page to strengthen your position further.' });
 
     const labels = { high: 'FIX NOW', quick: 'QUICK WIN', med: 'IMPORTANT' };
     document.getElementById('fixList').innerHTML = fixes.slice(0, 5).map(f =>
@@ -745,13 +749,13 @@ function restart() {
     Object.keys(answers).forEach(k => delete answers[k]);
     document.querySelectorAll('.option').forEach(o => o.classList.remove('sel-yes','sel-partial','sel-no'));
     document.querySelectorAll('.question').forEach(q => q.classList.remove('answered'));
-    document.getElementById('progressFill').style.width = '0%';
-    document.getElementById('progressCount').textContent = '0 / ' + total;
+    document.getElementById('pBar').style.width = '0%';
+    document.getElementById('pCount').textContent = '0 of ' + total;
     document.getElementById('results').style.display = 'none';
     const btn = document.getElementById('calcBtn');
     btn.disabled = true;
     btn.classList.remove('ready');
-    btn.textContent = 'Calculate My Score';
+    btn.textContent = 'Answer all 8 questions to see your score';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>

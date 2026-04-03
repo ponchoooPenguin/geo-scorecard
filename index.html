@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO Visibility Check — Is AI Recommending Your Business?</title>
+    <meta name="description" content="Find out if ChatGPT, Perplexity, and Google AI are recommending your business -- or your competitors. 8 questions, 5 minutes.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.6; }
+        .container { max-width: 680px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+        .hero { margin-bottom: 2.5rem; }
+        h1 { font-size: 1.9rem; margin-bottom: 0.5rem; color: #fff; font-weight: 700; }
+        .subtitle { color: #888; margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.5; }
+        .stat-row { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .stat { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 0.75rem 1rem; flex: 1; min-width: 140px; }
+        .stat-num { font-size: 1.4rem; font-weight: 700; color: #4a9eff; }
+        .stat-label { font-size: 0.75rem; color: #666; margin-top: 0.2rem; }
+        .section-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 1rem; font-weight: 600; }
+        .question { background: #111; border: 1px solid #222; border-radius: 12px; padding: 1.5rem; margin-bottom: 0.75rem; transition: border-color 0.2s; }
+        .question.answered { border-color: #2a2a2a; }
+        .question-header { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem; }
+        .q-num { background: #222; color: #888; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+        .question.answered .q-num { background: #1a2a1a; color: #22c55e; }
+        .question h3 { font-size: 0.95rem; color: #e0e0e0; font-weight: 500; line-height: 1.4; }
+        .question .hint { font-size: 0.8rem; color: #555; margin-bottom: 0.75rem; padding-left: 2.25rem; }
+        .critical { display: inline-block; font-size: 0.65rem; background: #2a1a00; color: #f59e0b; border: 1px solid #3a2a00; border-radius: 4px; padding: 1px 6px; margin-left: 0.5rem; vertical-align: middle; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .options { display: flex; gap: 0.5rem; flex-wrap: wrap; padding-left: 2.25rem; }
+        .option { padding: 0.45rem 0.9rem; border: 1px solid #333; border-radius: 8px; cursor: pointer; font-size: 0.82rem; transition: all 0.15s; background: #0a0a0a; color: #888; user-select: none; }
+        .option:hover { border-color: #555; color: #ccc; }
+        .option.selected-yes { border-color: #22c55e; background: #0a2a0a; color: #22c55e; }
+        .option.selected-partial { border-color: #f59e0b; background: #1a1200; color: #f59e0b; }
+        .option.selected-no { border-color: #ef4444; background: #1a0a0a; color: #ef4444; }
+        #progress-bar { height: 3px; background: #1a1a1a; border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden; }
+        #progress-fill { height: 100%; background: #4a9eff; border-radius: 2px; transition: width 0.3s; width: 0%; }
+        #calculate { display: block; width: 100%; padding: 1rem; background: #1a1a1a; color: #555; border: 1px solid #2a2a2a; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: not-allowed; margin-top: 1.5rem; transition: all 0.2s; }
+        #calculate.ready { background: #4a9eff; color: #fff; border-color: #4a9eff; cursor: pointer; }
+        #calculate.ready:hover { background: #3a8eef; }
+        #results { display: none; margin-top: 2.5rem; }
+        .result-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 2rem; }
+        .score-display { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .score-ring { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .score-ring-inner { text-align: center; }
+        .score-pct { font-size: 1.8rem; font-weight: 800; }
+        .score-of { font-size: 0.7rem; color: #555; }
+        .score-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .score-desc { font-size: 0.9rem; color: #888; line-height: 1.5; }
+        .fixes-section { margin-top: 1.5rem; }
+        .fixes-section h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 0.75rem; font-weight: 600; }
+        .fix { display: flex; gap: 0.75rem; padding: 0.75rem; background: #0a0a0a; border-radius: 8px; margin-bottom: 0.5rem; align-items: flex-start; }
+        .fix-priority { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; margin-top: 2px; }
+        .fix-priority.high { background: #2a0a0a; color: #ef4444; }
+        .fix-priority.quick { background: #0a2a0a; color: #22c55e; }
+        .fix-priority.med { background: #1a1200; color: #f59e0b; }
+        .fix-text { font-size: 0.85rem; color: #ccc; line-height: 1.4; }
+        .cta-block { margin-top: 1.5rem; border-top: 1px solid #222; padding-top: 1.5rem; }
+        .cta-block h4 { color: #fff; font-size: 1rem; margin-bottom: 0.5rem; }
+        .deliverables { list-style: none; margin-bottom: 1.25rem; }
+        .deliverables li { font-size: 0.85rem; color: #888; padding: 0.25rem 0; }
+        .deliverables li::before { content: "→ "; color: #4a9eff; }
+        .cta-btn { display: block; text-align: center; background: #4a9eff; color: #fff; padding: 1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; transition: background 0.2s; }
+        .cta-btn:hover { background: #3a8eef; }
+        .cta-sub { text-align: center; font-size: 0.8rem; color: #555; }
+        .restart { display: block; width: 100%; padding: 0.75rem; background: transparent; color: #555; border: 1px solid #222; border-radius: 8px; font-size: 0.85rem; cursor: pointer; margin-top: 1rem; transition: all 0.2s; }
+        .restart:hover { color: #888; border-color: #333; }
+        .footer { text-align: center; margin-top: 2rem; color: #444; font-size: 0.78rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>Is AI Recommending Your Business?</h1>
+        <p class="subtitle">When customers ask ChatGPT or Perplexity for recommendations in your industry, are you showing up -- or are your competitors? This 5-minute check tells you exactly where you stand.</p>
+        <div class="stat-row">
+            <div class="stat">
+                <div class="stat-num">90%</div>
+                <div class="stat-label">of local businesses have zero AI visibility</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">2-7</div>
+                <div class="stat-label">businesses cited per AI answer (not 10 like Google)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">527%</div>
+                <div class="stat-label">AI traffic growth in first half of 2025</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-label">Your Visibility Check</div>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+
+    <!-- Q1: robots.txt -->
+    <div class="question" data-q="1" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">1</div>
+            <h3>Check your robots.txt file <span class="critical">Hidden Killer</span></h3>
+        </div>
+        <p class="hint">Go to yourdomain.com/robots.txt. Look for GPTBot, ClaudeBot, OAI-SearchBot, or PerplexityBot. Many websites block these by default -- making you 100% invisible to those AI models even with great content.</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">All AI bots allowed</div>
+            <div class="option" data-val="1" onclick="pick(this)">One or two blocked</div>
+            <div class="option" data-val="0" onclick="pick(this)">Blocked or unsure</div>
+        </div>
+    </div>
+
+    <!-- Q2: ChatGPT live test -->
+    <div class="question" data-q="2" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">2</div>
+            <h3>Run the ChatGPT test (do this now)</h3>
+        </div>
+        <p class="hint">Open ChatGPT. Ask: "What are the best [your industry] in [your city]?" Then ask: "Recommend a [your industry] for [your most common customer need] in [your city]"</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">Mentioned in both</div>
+            <div class="option" data-val="1" onclick="pick(this)">Mentioned in one</div>
+            <div class="option" data-val="0" onclick="pick(this)">Not mentioned</div>
+        </div>
+    </div>
+
+    <!-- Q3: Foursquare -->
+    <div class="question" data-q="3" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">3</div>
+            <h3>Is your Foursquare listing claimed? <span class="critical">ChatGPT Source #1</span></h3>
+        </div>
+        <p class="hint">ChatGPT pulls 70%+ of local business results from Foursquare -- not Google Maps. Go to foursquare.com and search your business name. Most local businesses have never claimed their listing.</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">Claimed and complete</div>
+            <div class="option" data-val="1" onclick="pick(this)">Listed but unclaimed</div>
+            <div class="option" data-val="0" onclick="pick(this)">Not on Foursquare</div>
+        </div>
+    </div>
+
+    <!-- Q4: Bing Places / GBP -->
+    <div class="question" data-q="4" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">4</div>
+            <h3>Google Business Profile + Bing Places status</h3>
+        </div>
+        <p class="hint">GBP feeds Google AI Overviews. Bing Places feeds Copilot and SearchGPT (87% citation overlap). Both need to be claimed, verified, and complete.</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">Both complete and verified</div>
+            <div class="option" data-val="1" onclick="pick(this)">One complete, one missing</div>
+            <div class="option" data-val="0" onclick="pick(this)">Neither claimed</div>
+        </div>
+    </div>
+
+    <!-- Q5: Schema -->
+    <div class="question" data-q="5" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">5</div>
+            <h3>Does your website have schema markup?</h3>
+        </div>
+        <p class="hint">Go to search.google.com/test/rich-results and enter your URL. LocalBusiness schema tells AI exactly what you do, where you are, and who you serve. Under 15% of local businesses have it.</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">Yes, validated</div>
+            <div class="option" data-val="1" onclick="pick(this)">Not sure</div>
+            <div class="option" data-val="0" onclick="pick(this)">No schema</div>
+        </div>
+    </div>
+
+    <!-- Q6: FAQ content -->
+    <div class="question" data-q="6" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">6</div>
+            <h3>Do you have real FAQ content on your website?</h3>
+        </div>
+        <p class="hint">FAQ format mirrors how users ask AI questions. Sites with FAQ + FAQPage schema get cited 40-60% more in AI answers. "We provide excellent service" doesn't get cited. "How much does X cost in Y city?" does.</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">Detailed FAQ, 8+ questions</div>
+            <div class="option" data-val="1" onclick="pick(this)">Basic or outdated FAQ</div>
+            <div class="option" data-val="0" onclick="pick(this)">No FAQ content</div>
+        </div>
+    </div>
+
+    <!-- Q7: Third-party presence -->
+    <div class="question" data-q="7" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">7</div>
+            <h3>Third-party directory presence</h3>
+        </div>
+        <p class="hint">AI cross-references your business across sources before recommending it. Yelp, industry directories (Avvo, Healthgrades, Houzz, etc.), local press. Inconsistent info across sources = low AI confidence.</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">4+ consistent listings</div>
+            <div class="option" data-val="1" onclick="pick(this)">2-3 listings</div>
+            <div class="option" data-val="0" onclick="pick(this)">0-1 listing</div>
+        </div>
+    </div>
+
+    <!-- Q8: Specificity -->
+    <div class="question" data-q="8" data-weight="2">
+        <div class="question-header">
+            <div class="q-num">8</div>
+            <h3>Does your website have specific, citable facts about your business?</h3>
+        </div>
+        <p class="hint">AI can't cite vague copy. It CAN cite: years in business, clients served, case success rates, certifications, specific services with locations, prices, and languages spoken. Does your site have real specifics or marketing language?</p>
+        <div class="options">
+            <div class="option" data-val="2" onclick="pick(this)">Specific facts and data throughout</div>
+            <div class="option" data-val="1" onclick="pick(this)">Some specifics, some vague</div>
+            <div class="option" data-val="0" onclick="pick(this)">Mostly marketing language</div>
+        </div>
+    </div>
+
+    <button id="calculate" disabled onclick="showResults()">Calculate My Score</button>
+
+    <div id="results">
+        <div class="result-card">
+            <div class="score-display">
+                <div class="score-ring" id="scoreRing">
+                    <div class="score-ring-inner">
+                        <div class="score-pct" id="scorePct"></div>
+                        <div class="score-of">out of 100</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="score-title" id="scoreTitle"></div>
+                    <div class="score-desc" id="scoreDesc"></div>
+                </div>
+            </div>
+
+            <div class="fixes-section">
+                <h4>Your Priority Fixes</h4>
+                <div id="fixList"></div>
+            </div>
+
+            <div class="cta-block">
+                <h4>Want the Full Picture?</h4>
+                <p style="font-size:0.85rem;color:#888;margin-bottom:1rem;line-height:1.5">This check shows you the gaps. A full <strong style="color:#e0e0e0">GEO Visibility Audit</strong> shows you exactly which competitors get cited when customers search in your category -- with a prioritized fix roadmap specific to your business.</p>
+                <ul class="deliverables">
+                    <li>50+ prompts tested across ChatGPT, Perplexity, Claude, and Gemini</li>
+                    <li>Visibility score per query -- not just an overall rating</li>
+                    <li>Exact competitor names cited when you don't appear</li>
+                    <li>robots.txt, schema, Foursquare, and Bing Places diagnostic</li>
+                    <li>5 concrete, prioritized fixes for your specific business</li>
+                </ul>
+                <a class="cta-btn" href="mailto:poncho.mort@agentmail.to?subject=GEO%20Visibility%20Audit%20-%20Full%20Audit%20Request">Get the Full Audit — $99</a>
+                <p class="cta-sub">Delivered as a branded report within 48 hours. One-time, no subscription.</p>
+            </div>
+        </div>
+        <button class="restart" onclick="restart()">Start Over</button>
+    </div>
+
+    <div class="footer">Built by Providence &middot; poncho.mort@agentmail.to</div>
+</div>
+
+<script>
+    const answers = {};
+    const totalQ = 8;
+
+    function pick(el) {
+        const qDiv = el.closest('.question');
+        const qNum = qDiv.dataset.q;
+        qDiv.querySelectorAll('.option').forEach(o => {
+            o.classList.remove('selected-yes','selected-partial','selected-no');
+        });
+        const val = parseInt(el.dataset.val);
+        if (val === 2) el.classList.add('selected-yes');
+        else if (val === 1) el.classList.add('selected-partial');
+        else el.classList.add('selected-no');
+        answers[qNum] = val;
+        qDiv.classList.add('answered');
+        qDiv.querySelector('.q-num').textContent = Object.keys(answers).indexOf(qNum) >= 0 ? '✓' : qNum;
+        const filled = Object.keys(answers).length;
+        document.getElementById('progress-fill').style.width = (filled / totalQ * 100) + '%';
+        const btn = document.getElementById('calculate');
+        if (filled >= totalQ) {
+            btn.classList.add('ready');
+            btn.disabled = false;
+            btn.textContent = 'Calculate My Score \u2192';
+        }
+    }
+
+    function showResults() {
+        const total = Object.values(answers).reduce((a,b) => a+b, 0);
+        const pct = Math.round((total / (totalQ * 2)) * 100);
+
+        document.getElementById('scorePct').textContent = pct + '%';
+        const ring = document.getElementById('scoreRing');
+        const title = document.getElementById('scoreTitle');
+        const desc = document.getElementById('scoreDesc');
+        const fixList = document.getElementById('fixList');
+
+        let color, grade, description, fixes;
+
+        if (answers['1'] === 0) {
+            // robots.txt is blocking -- lead with this
+            fixes = [
+                { priority: 'high', text: 'Fix robots.txt immediately -- you are blocking AI crawlers. Allow GPTBot, ClaudeBot, OAI-SearchBot, and PerplexityBot. This may be why you are invisible despite other optimization.' },
+            ];
+        } else {
+            fixes = [];
+        }
+
+        if (answers['3'] === 0) fixes.push({ priority: 'high', text: 'Claim your Foursquare listing -- ChatGPT pulls 70%+ of local results from Foursquare. Go to foursquare.com, find your business, and claim it. Add hours, photos, and description.' });
+        if (answers['4'] !== 2) fixes.push({ priority: 'quick', text: 'Complete Bing Places -- go to bingplaces.com and verify your listing. It directly feeds Copilot and SearchGPT with 87% citation overlap.' });
+        if (answers['5'] === 0) fixes.push({ priority: 'high', text: 'Add LocalBusiness schema to your website. Have your web developer add JSON-LD schema with your name, address, hours, and services. Under 15% of local businesses have this.' });
+        if (answers['6'] !== 2) fixes.push({ priority: 'quick', text: 'Build a real FAQ page. Write 8-15 questions customers actually ask (pricing, process, location, specialties). Answer each in 1-3 specific sentences. This produces a 40-60% citation lift.' });
+        if (answers['7'] !== 2) fixes.push({ priority: 'med', text: 'Expand your directory presence -- Yelp, industry-specific directories, local business associations. Consistent NAP (name, address, phone) across all of them builds AI trust.' });
+        if (answers['8'] !== 2) fixes.push({ priority: 'med', text: 'Add specific facts to your website -- years in business, clients served, specialties, certifications, service area, price ranges. Replace vague marketing copy with citable claims.' });
+
+        if (fixes.length === 0) fixes.push({ priority: 'quick', text: 'Strong baseline. Add comparison content (your business vs. alternatives) and consider a dedicated "Why Choose Us" page with specific, superlative facts.' });
+
+        if (pct >= 75) {
+            color = '#22c55e'; grade = 'Strong Visibility';
+            description = 'Your AI presence is above average. Most of your competitors are still invisible. Focus on maintaining this edge -- AI models retrain regularly and the landscape shifts fast.';
+        } else if (pct >= 50) {
+            color = '#f59e0b'; grade = 'Partial Visibility';
+            description = 'AI knows you exist but is not consistently recommending you. You are losing high-intent customers on specific query types. The fixes below can close the gap in days to weeks.';
+        } else if (pct >= 25) {
+            color = '#f97316'; grade = 'Low Visibility';
+            description = 'AI models have weak signal on your business and are skipping you for competitors. Most of these issues are technical -- not about your reputation -- and are fixable fast.';
+        } else {
+            color = '#ef4444'; grade = 'Invisible to AI';
+            description = 'Your competitors are collecting all the AI-driven referrals that should be yours. The good news: 90% of local businesses are in the same position, and the fixes are technical, not expensive.';
+        }
+
+        ring.style.border = '4px solid ' + color;
+        ring.querySelector('.score-pct').style.color = color;
+        title.textContent = grade;
+        title.style.color = color;
+        desc.textContent = description;
+
+        const priorityLabel = { high: 'HIGH', quick: 'QUICK WIN', med: 'MEDIUM' };
+        fixList.innerHTML = fixes.slice(0,5).map(f =>
+            `<div class="fix"><span class="fix-priority ${f.priority}">${priorityLabel[f.priority]}</span><span class="fix-text">${f.text}</span></div>`
+        ).join('');
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function restart() {
+        Object.keys(answers).forEach(k => delete answers[k]);
+        document.querySelectorAll('.option').forEach(o => {
+            o.classList.remove('selected-yes','selected-partial','selected-no');
+        });
+        document.querySelectorAll('.question').forEach(q => q.classList.remove('answered'));
+        document.querySelectorAll('.q-num').forEach((el, i) => el.textContent = i+1);
+        document.getElementById('progress-fill').style.width = '0%';
+        document.getElementById('results').style.display = 'none';
+        const btn = document.getElementById('calculate');
+        btn.disabled = true;
+        btn.classList.remove('ready');
+        btn.textContent = 'Calculate My Score';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>
